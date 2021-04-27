@@ -27,6 +27,9 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
+        <form class="nav-link" method="get">
+          <input name="search" type="text" placeholder="Recherchez ici" value="<?= $_GET['search'] ?? "" ?>"></input>
+        </form>
       </ul>
       <ul class="navbar-nav">
         <li class="nav-item">

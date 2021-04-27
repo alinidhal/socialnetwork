@@ -28,6 +28,19 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
       </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <form class="nav-link" method="get">
+            <input name="search" type="text"></input>
+          </form>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="?action=login" role="button">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="?action=register" role="button">Sign Up</a>
+        </li>
+      </ul>
     </div>
   </header>
 
@@ -43,18 +56,56 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-        <form class="form-signin" method="POST" action="?action=login">
-          <h2 class="form-signin-heading">Welcome Back</h2>
-          <?php
-          if (isset($errorMsg)) {
-            echo "<div class='alert alert-warning' role='alert'>$errorMsg</div>";
+      <div class="col">
+        <?php
+        if (isset($posts)) {
+          foreach ($posts as $onePost) {
+        ?>
+            <div class="panel panel-white post panel-shadow">
+              <div class="post-heading">
+                <div class="pull-left image">
+                  <img src="img/avatars/default.png" class="rounded-circle img-thumbnail avatar" alt="<?= $onePost['user_id']; ?>">
+                </div>
+                <div class="pull-left meta">
+                  <div class="title h5">
+                    <a href="#"><b><?= htmlspecialchars($onePost['nickname']); ?></b></a>
+                  </div>
+                  <h6 class="text-muted time"><?= $onePost['created_at']; ?></h6>
+                </div>
+              </div>
+              <div class="post-description">
+                <p><?= htmlspecialchars($onePost['content']); ?></p>
+              </div>
+              <div class="post-footer">
+                <ul class="comments-list">
+                  <?php
+                  $postId = $onePost['id'];
+                  if (isset($comments[$postId])) {
+                    foreach ($comments[$postId] as $comment) {
+                  ?>
+                      <li class="comment">
+                        <a class="pull-left" href="#">
+                          <img class="avatar" src="img/avatars/default.png">
+                        </a>
+                        <div class="comment-body">
+                          <div class="comment-heading">
+                            <h4 class="user"><?= htmlspecialchars($comment['nickname']); ?></h4>
+                            <h5 class="time"><?= $comment['created_at']; ?></h5>
+                          </div>
+                          <p><?= htmlspecialchars($comment['content']); ?></p>
+                        </div>
+                      </li>
+                  <?php
+                    }
+                  }
+                  ?>
+                </ul>
+              </div>
+            </div>
+        <?php
           }
-          ?>
-          <input type="text" class="form-control" name="username" placeholder="Email Address" required="" autofocus="" />
-          <input type="password" class="form-control" name="password" placeholder="Password" required="" />
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-        </form>
+        }
+        ?>
       </div>
     </div>
   </div>
